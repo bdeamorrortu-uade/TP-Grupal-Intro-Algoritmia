@@ -49,6 +49,7 @@ def ask_and_check_number(random_number):
 
     while(user_number != -1 and user_number != random_number):
         if(user_number < 1000 or user_number > 9999):
+            # Como el valor es incorrecto, se vuelve a pedir un número y no se cuenta como intento
             user_number = int(input("El número ingresado no es de 4 cifras. Vuelva a ingresar un número: "))
         elif(user_number > random_number):
             attempts += 1
@@ -59,8 +60,11 @@ def ask_and_check_number(random_number):
             print("El número a adivinar es MAYOR. Vuelva a intentarlo")
             user_number = ask_for_number()
 
+    # Si el bucle terminó por adivinar el número
     if(user_number == random_number):
+        # Se agrega el intento
         attempts += 1
+        # Se checkea si el puntaje es top 5
         handle_correct_guess(attempts)
 
     return attempts
