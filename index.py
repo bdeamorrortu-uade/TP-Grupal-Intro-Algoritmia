@@ -78,8 +78,11 @@ def ask_and_check_number(random_number):
         attempts += 1
         user_number = ask_for_number()
 
+    # Si el bucle terminó por adivinar el número
     if(user_number == random_number):
+        # Se agrega el intento
         attempts += 1
+        # Se checkea si el puntaje es top 5
         handle_correct_guess(attempts)
 
     return attempts
