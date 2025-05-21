@@ -23,6 +23,29 @@ def ask_for_number():
     user_number = int(input("Ingrese un número de 4 cifras: "))
     return user_number
 
+def ask_for_number():
+    is_valid = False
+
+    while not is_valid:
+        user_number = input("Ingrese un número entero de 4 cifras: ")
+
+        try:
+            user_number = int(user_number)
+            valid_number = user_number != -1 and (user_number < 1000 or user_number > 9999)
+
+            if valid_number:
+                raise ValueError("Número no tiene 4 cifras")
+            else:
+                is_valid = True
+                
+        # Si falla int() por valor invalido o el número no es de 4 cifras se muestra un mensaje y vuelve a pedir que ingrese el número
+        except ValueError:
+            print("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
+
+    return user_number
+
+
+
 # Funcion que se encarga de comparar puntaje del usuario con los top 5 e ingresarlo en caso de ser necesario
 def handle_correct_guess(attempts):
     print("¡Felicidades! Has adivinado el número.")
@@ -48,16 +71,12 @@ def ask_and_check_number(random_number):
     user_number = ask_for_number()
 
     while(user_number != -1 and user_number != random_number):
-        if(user_number < 1000 or user_number > 9999):
-            user_number = int(input("El número ingresado no es de 4 cifras. Vuelva a ingresar un número: "))
-        elif(user_number > random_number):
-            attempts += 1
+        if(user_number > random_number):
             print("El número a adivinar es MENOR. Vuelva a intentarlo")
-            user_number = ask_for_number()
         else:
-            attempts += 1
             print("El número a adivinar es MAYOR. Vuelva a intentarlo")
-            user_number = ask_for_number()
+        attempts += 1
+        user_number = ask_for_number()
 
     if(user_number == random_number):
         attempts += 1
