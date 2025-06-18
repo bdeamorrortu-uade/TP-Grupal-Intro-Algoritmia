@@ -24,7 +24,7 @@ def ask_for_number():
     is_valid = False
 
     while not is_valid:
-        user_input = input("Ingrese un número entero de 4 cifras: ")
+        user_input = st.text_input("Ingrese un número entero de 4 cifras: ")
 
         if user_input == "-1":
             return -1
@@ -33,7 +33,7 @@ def ask_for_number():
             user_number = int(user_input)
             is_valid = True
         else:
-            print("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
+            st.write("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
 
     return user_number
 
@@ -46,7 +46,13 @@ def handle_correct_guess(attempts):
     # Si la cant. de intentos del usuario es menor al último del top 5, se agrega a la lista
     if(top_5_scores[len(top_5_scores) - 1]["attempts"] > attempts):
         st.write("¡Te encuentras en el top 5 de mejores puntajes!")
-        identification = st.text_input("Ingrese su identificación para guardar el resultado: ")
+        is_valid = False
+        while not is_valid:
+            identification = st.text_input("Ingrese su identificación para guardar el resultado: ")
+            if identification.isdigit() and len(identification) >= 5:
+                is_valid = True
+            else:
+                st.write("Entrada inválida. Ingrese un valor numérico correspondiente a su identificacion de al menos 5 dígitos.")
 
         # Se agrega el intento a la lista - pasa a tener 6 elementos
         top_5_scores.append({ "player": identification, "attempts": attempts })
