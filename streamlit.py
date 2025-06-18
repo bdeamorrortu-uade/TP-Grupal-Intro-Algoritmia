@@ -24,20 +24,16 @@ def ask_for_number():
     is_valid = False
 
     while not is_valid:
-        user_number = st.text_input("Ingrese un número entero de 4 cifras: ")
+        user_input = input("Ingrese un número entero de 4 cifras: ")
 
-        try:
-            user_number = int(user_number)
-            valid_number = user_number != -1 and (user_number < 1000 or user_number > 9999)
+        if user_input == "-1":
+            return -1
 
-            if valid_number:
-                raise ValueError("Número no tiene 4 cifras")
-            else:
-                is_valid = True
-                
-        # Si falla int() por valor invalido o el número no es de 4 cifras se muestra un mensaje y vuelve a pedir que ingrese el número
-        except ValueError:
-            st.write("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
+        if user_input.isdigit() and len(user_input) == 4:
+            user_number = int(user_input)
+            is_valid = True
+        else:
+            print("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
 
     return user_number
 

@@ -26,17 +26,19 @@ Comencemos!
 
 def ask_for_number():
     is_valid = False
+
     while not is_valid:
-        user_number = input("Ingrese un número entero de 4 cifras: ")
-        try:
-            user_number = int(user_number)
-            valid_number = user_number != -1 and (user_number < 1000 or user_number > 9999)
-            if valid_number:
-                raise ValueError("Número no tiene 4 cifras")
-            else:
-                is_valid = True
-        except ValueError:
+        user_input = input("Ingrese un número entero de 4 cifras: ")
+
+        if user_input == "-1":
+            return -1
+
+        if user_input.isdigit() and len(user_input) == 4:
+            user_number = int(user_input)
+            is_valid = True
+        else:
             print("Entrada inválida. Debe ingresar un número entero de 4 cifras.")
+
     return user_number
 
 def handle_correct_guess(attempts):
