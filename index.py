@@ -47,7 +47,13 @@ def handle_correct_guess(attempts):
     global top_5_scores 
     if top_5_scores[4][1] > attempts:
         print("¡Te encuentras en el top 5 de mejores puntajes!")
-        identification = input("Ingrese su identificación para guardar el resultado: ")
+        is_valid = False
+        while not is_valid:
+            identification = input("Ingrese su identificación para guardar el resultado: ")
+            if identification.isdigit() and len(identification) >= 5:
+                is_valid = True
+            else:
+                print("Entrada inválida. Ingrese un valor numérico correspondiente a su identificacion de al menos 5 dígitos.")
         new_score = [identification, attempts]
         top_5_scores = insert_and_sort_top_scores(top_5_scores, new_score)
 
