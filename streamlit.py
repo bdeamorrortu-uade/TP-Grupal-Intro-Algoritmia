@@ -37,6 +37,15 @@ def finish_game():
     st.session_state.game_over = True
     st.session_state.show_results_dialog = True
 
+def save_score(identification):
+    new_score = [identification, st.session_state.attempts]
+    new_top_scores = insert_and_sort_top_scores(st.session_state.top_5_scores, new_score)
+    st.session_state.top_5_scores = new_top_scores
+    st.session_state.show_save_score = False
+
+def validate_identification(identification):
+    return (identification and identification.isdigit() and len(identification) >= 5)
+
 # Contenido del juego
 st.title("🎯 Adivina el número")
 st.write("""
@@ -82,20 +91,21 @@ if not st.session_state.game_over and not st.session_state.show_results_dialog:
 def show_results_dialog():
     st.write(f"El número a adivinar era: {st.session_state.random_number}")
     st.write(f"Cantidad de intentos: {st.session_state.attempts}")
-    identificacion_valida = True
+    valid = True
     identification = None
+    error_message = ""
     if st.session_state.show_save_score:
         st.success("¡Te encuentras en el top 5 de mejores puntajes!")
         identification = st.text_input("Ingrese su identificación para guardar el resultado:", key="identification_input")
-        identificacion_valida = bool(identification and identification.strip())
-    finalizar_btn = st.button("Finalizar", key="finalizar_btn", disabled=(st.session_state.show_save_score and not identificacion_valida))
+        valid = validate_identification(identification)
+        if not valid:
+            if identification:
+                error_message = "Entrada inválida. Ingrese un valor numérico correspondiente a su identificacion de al menos 5 dígitos."
+                st.error(error_message)
+    finalizar_btn = st.button("Finalizar", key="finalizar_btn", disabled=(st.session_state.show_save_score and not valid))
     if finalizar_btn:
-        if st.session_state.show_save_score and identificacion_valida:
-            new_score = [identification, st.session_state.attempts]
-            new_top_scores = insert_and_sort_top_scores(st.session_state.top_5_scores, new_score)
-            st.session_state.top_5_scores = new_top_scores
-            st.session_state.show_save_score = False
-            st.success("¡Puntaje guardado!")
+        if st.session_state.show_save_score and valid:
+            save_score(identification)
         reset_game()
         st.rerun()
 
