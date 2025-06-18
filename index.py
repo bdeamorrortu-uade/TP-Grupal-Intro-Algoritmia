@@ -11,7 +11,7 @@ top_5_scores = [
 ]
 
 game_instructions = """
-Bienvenido a "..."!
+Bienvenido a "Adivina el número"!
 
 El juego consiste en adivinar un número de 4 cifras en el menor número de intentos posible.
 
