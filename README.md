@@ -1,11 +1,12 @@
 # TP-Grupal-Intro-Algoritmia
 
-Borrador TP Grupal de Introducción a la Algoritmia - Grupo 6
+TP Grupal de Introducción a la Algoritmia - Grupo 6
 
 ## Archivos principales
 
-- `index.py`: contiene el algoritmo base del juego implementado según los temas abordados en clase.
-- `streamlit.py`: archivo adicional que utiliza Streamlit para presentar una interfaz web interactiva como valor agregado al proyecto.
+- `index.py`: Contiene el algoritmo base del juego implementado según los temas abordados en clase (listas, bucles, estructura condicional, built-in functions)
+- `streamlit.py`: Archivo adicional que utiliza Streamlit para presentar una interfaz web interactiva como valor agregado al proyecto.
+- `algorithms.py`: Archivo con algoritmos personalizados para utilizar tanto en index.py como streamlit.py.
 
 ## Requisitos
 
