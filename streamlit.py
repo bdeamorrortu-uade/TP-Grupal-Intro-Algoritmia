@@ -33,7 +33,8 @@ def reset_game():
     st.session_state.identification = ""
     st.session_state.show_results_dialog = False
 
-def finish_game():
+def finish_game(exit=False):
+    st.session_state.show_save_score =  (not exit) and (st.session_state.top_5_scores[-1][1] > st.session_state.attempts)
     st.session_state.game_over = True
     st.session_state.show_results_dialog = True
 
@@ -44,7 +45,7 @@ def save_score(identification):
     st.session_state.show_save_score = False
 
 def validate_identification(identification):
-    return (identification and identification.isdigit() and len(identification) >= 5)
+    return identification.isdigit() and len(identification) >= 5
 
 # Contenido del juego
 st.title("🎯 Adivina el número")
@@ -67,14 +68,11 @@ if not st.session_state.game_over and not st.session_state.show_results_dialog:
 
     if guess_button:
         if guess == "-1":
-            finish_game()
+            finish_game(True)
         elif guess.isdigit() and len(guess) == 4:
             user_number = int(guess)
             st.session_state.attempts += 1
             if user_number == st.session_state.random_number:
-                st.session_state.message = f"¡Felicidades! Has adivinado el número en {st.session_state.attempts} intentos."
-                if st.session_state.top_5_scores[-1][1] > st.session_state.attempts:
-                    st.session_state.show_save_score = True
                 finish_game()
             elif user_number > st.session_state.random_number:
                 st.session_state.message = "El número a adivinar es MENOR. Vuelva a intentarlo."
@@ -93,15 +91,12 @@ def show_results_dialog():
     st.write(f"Cantidad de intentos: {st.session_state.attempts}")
     valid = True
     identification = None
-    error_message = ""
     if st.session_state.show_save_score:
         st.success("¡Te encuentras en el top 5 de mejores puntajes!")
         identification = st.text_input("Ingrese su identificación para guardar el resultado:", key="identification_input")
         valid = validate_identification(identification)
-        if not valid:
-            if identification:
-                error_message = "Entrada inválida. Ingrese un valor numérico correspondiente a su identificacion de al menos 5 dígitos."
-                st.error(error_message)
+        if (not valid) and identification:
+            st.error("Entrada inválida. Ingrese un valor numérico correspondiente a su identificacion de al menos 5 dígitos.")
     finalizar_btn = st.button("Finalizar", key="finalizar_btn", disabled=(st.session_state.show_save_score and not valid))
     if finalizar_btn:
         if st.session_state.show_save_score and valid:
